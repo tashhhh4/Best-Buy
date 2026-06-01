@@ -9,7 +9,8 @@ class Product:
     """ A product in the store inventory. """
 
     def __init__(self, name, price, quantity):
-        """ Sets the data and initial quantity and active state of the product.
+        """ Sets the data and initial quantity the product.
+        A product is considered "active" if quantity > 0.
         All fields required.
         """
         if not name:
@@ -21,11 +22,9 @@ class Product:
         if price < 0:
             raise ValueError("Property 'price' can't be negative in class 'Product'.")
 
-        self.quantity = int(quantity)
-        if quantity < 0:
-            raise ValueError("Property 'quantity' can't be negative in class 'Product'.")
-        
-        self.active = True
+        self.set_quantity(quantity)
+
+        self.active = True if quantity > 0 else false
 
     def get_quantity(self) -> int:
         """ Returns the current quantity of this product. """
@@ -33,7 +32,13 @@ class Product:
 
     def set_quantity(self, quantity):
         """ Updates the quantity of this product. """
+        quantity = int(quantity)
+        if quantity < 0:
+            raise ValueError("Tried to set property 'quantity' to a negative value in setter function 'set_quantity' in class Product.")
+        
         self.quantity = quantity
+        if self.quantity == 0:
+            self.deactivate()
 
     def is_active(self) -> bool:
         """ Reports if this product is active (visible). """
@@ -59,7 +64,7 @@ class Product:
         if self.quantity < quantity:
             raise ProductShortageError(f"Cannot buy {quantity} of product '{self.name}' with only {self.quantity} left in stock!")
         
-        self.quantity -= quantity
+        self.set_quantity(self.quantity - quantity)
         return quantity * self.price
 
 
@@ -70,7 +75,9 @@ if __name__ == "__main__":
     
     print(bose.buy(50))
     print(mac.buy(100))
+
     print(mac.is_active())
+    assert mac.is_active() == False
 
     bose.show()
     mac.show()
