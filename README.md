@@ -1,5 +1,5 @@
 # Best Buy
-An app for video media retail.
+An app for computing & electronics retail.
 
 
 # Run
