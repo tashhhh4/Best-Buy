@@ -1,5 +1,10 @@
 """ Best Buy - products.py """
 
+class ProductShortageError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class Product:
     """ A product in the store inventory. """
 
@@ -7,39 +12,55 @@ class Product:
         """ Sets the data and initial quantity and active state of the product.
         All fields required.
         """
+        if not name:
+            raise ValueError("Expected a value for property 'name' in new 'Product'.")
+
         self.name = name
-        self.price = price
-        self.quantity = quantity
+    
+        self.price = float(price)
+        if price < 0:
+            raise ValueError("Property 'price' can't be negative in class 'Product'.")
+
+        self.quantity = int(quantity)
+        if quantity < 0:
+            raise ValueError("Property 'quantity' can't be negative in class 'Product'.")
+        
         self.active = True
 
     def get_quantity(self) -> int:
         """ Returns the current quantity of this product. """
-        pass
+        return self.quantity
 
     def set_quantity(self, quantity):
         """ Updates the quantity of this product. """
-        pass
+        self.quantity = quantity
 
     def is_active(self) -> bool:
         """ Reports if this product is active (visible). """
-        pass
+        return self.active
 
     def activate(self):
         """ Sets this product's status to active (`True`). """
-        pass
+        self.active = True
 
     def deactivate(self):
         """ Sets this product's status to inactive (`False`). """
-        pass
+        self.active = False
 
     def show(self):
         """ Prints an string representation of the product containing all of its basic info. """
-        pass
+        print(f"{self.name}, Price: {round(self.price)}, Quantity: {self.quantity}")
 
     def buy(self, quantity) -> float:
         """ 'Buys' a product. Returns the total price given the desired quantity,
         and deducts the product from the store's total inventory. """
-        pass
+        if self.quantity <= 0:
+            raise ProductShortageError(f"Product '{self.name}' is out of stock!")
+        if self.quantity < quantity:
+            raise ProductShortageError(f"Cannot buy {quantity} of product '{self.name}' with only {self.quantity} left in stock!")
+        
+        self.quantity -= quantity
+        return quantity * self.price
 
 
 # Run tests on the Product class
@@ -56,3 +77,13 @@ if __name__ == "__main__":
 
     bose.set_quantity(1000)
     bose.show()
+
+    try:
+        print(mac.buy(5))
+    except ProductShortageError as e:
+        print(e)
+
+    try:
+        print(bose.buy(40000))
+    except ProductShortageError as e:
+        print(e)
