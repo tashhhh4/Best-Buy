@@ -23,23 +23,33 @@ def print_title():
     print("   Store Menu")
     print("   ----------")
 
-
-# Menu functions
-def list_products():
-    print_divider()
+def print_products():
+    """ Prints a numbered list of the products in the store. """
     products = best_buy.get_all_products()
     if not products:
         print("Store inventory is empty!")
     else:
-        for product in products:
+        for i, product in enumerate(products):
+            print(f"{i + 1}. ", end="")
             product.show()
+
+
+# Menu functions
+def list_products():
+    """ Lists the products. """
+    print_divider()
+    print_products()
     print_divider()
 
+
 def show_product_count():
+    """ Shows the total number of items in the store. """
     num_items = best_buy.get_total_quantity()
     print(f"Total of {num_items} items in the store") 
 
+
 def make_order():
+    """ Interacts with the user to place purchase orders on products in the store. """
     print("Running function make_order")    
 
 
