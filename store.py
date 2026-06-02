@@ -1,4 +1,4 @@
-from products import Product
+import products
 
 """ Best Buy - store.py """
 
@@ -10,7 +10,7 @@ class Store:
         """ Initializes the Store with an initial Product list.
 
             Args:
-                products :: List[Product]
+                products :: List[products.Product]
         """
         self.products = products
 
@@ -29,7 +29,7 @@ class Store:
             count += product.get_quantity()
         return count
 
-    def get_all_products(self) -> List[Product]:
+    def get_all_products(self) -> List[products.Product]:
         """ Returns a list of all Products (only active) in the Store. """
         return [p for p in self.products if p.is_active()]
 
@@ -40,7 +40,7 @@ class Store:
                 total :: The total price of the order
 
             Args:
-                shopping_list :: tuple(Product, quantity)
+                shopping_list :: tuple(products.Product, quantity)
         """
         total = 0
         for product, quantity in shopping_list:
@@ -57,8 +57,8 @@ if __name__ == "__main__":
         assert len(my_store.get_all_products()) == 0
 
         # Add Products
-        p1 = Product("Product 1", 10.99, 10)
-        p2 = Product("Product 2", 25.99, 5)
+        p1 = products.Product("Product 1", 10.99, 10)
+        p2 = products.Product("Product 2", 25.99, 5)
 
         my_store.add_product(p1)
         my_store.add_product(p2)
@@ -78,8 +78,8 @@ if __name__ == "__main__":
         assert my_store.get_total_quantity() == 8
 
         # Create new products
-        bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-        mac = Product("MacBook Air M2", price=1450, quantity=100)
+        bose = products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
+        mac = products.Product("MacBook Air M2", price=1450, quantity=100)
 
         # Initialize store with products
         best_buy = Store([bose, mac])
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         assert best_buy.get_all_products()[0] is bose
 
         # Add another product
-        pixel = Product("Google Pixel 7", price=500, quantity=250)
+        pixel = products.Product("Google Pixel 7", price=500, quantity=250)
         best_buy.add_product(pixel)
 
         # Test correct quantity counting
@@ -104,9 +104,9 @@ if __name__ == "__main__":
         assert bose.get_quantity() == 500 - 5 - 10
 
         # Test one more set of usage statements (note: best_buy variable reassigned)
-        product_list = [Product("MacBook Air M2", price=1450, quantity=100),
-                Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                Product("Google Pixel 7", price=500, quantity=250),
+        product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
+                products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                products.Product("Google Pixel 7", price=500, quantity=250),
                ]
 
         best_buy = Store(product_list)
