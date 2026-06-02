@@ -28,10 +28,10 @@ def print_title():
     print("   ----------")
 
 
-def print_products():
+def print_products(store):
     """ Prints a numbered list of the products in the store. """
     print_divider()
-    products = best_buy.get_all_products()
+    products = store.get_all_products()
     if not products:
         print("Store inventory is empty!")
     else:
@@ -43,20 +43,20 @@ def print_products():
 
 # Menu functions
 
-def list_products():
+def list_products(store):
     """ Lists the products. """
-    print_products()
+    print_products(store)
 
 
-def show_product_count():
+def show_product_count(store):
     """ Shows the total number of items in the store. """
-    num_items = best_buy.get_total_quantity()
+    num_items = store.get_total_quantity()
     print(f"Total of {num_items} items in the store") 
 
 
-def make_order():
+def make_order(store):
     """ Interacts with the user to place purchase orders on products in the store. """
-    print_products()
+    print_products(store)
     print("Enter the product numbers and quantities for your desired order. To finish, enter blank text for both prompts.")
 
     # Product order loop
@@ -82,7 +82,7 @@ def make_order():
             if product_quantity < 1:
                 raise ValueError
 
-            product = best_buy.get_all_products()[product_number - 1]
+            product = store.get_all_products()[product_number - 1]
 
             orders.append((product, product_quantity))
 
@@ -97,7 +97,7 @@ def make_order():
 
     if orders:
         try:
-            price = best_buy.order(orders)
+            price = store.order(orders)
             print_deco_divider()
             print(f"Order made! Total payment: ${round(price)}")
 
@@ -135,7 +135,7 @@ def start(store):
                 print("Invalid choice! Please try again.")
                 continue
 
-            choices[user_choice - 1][1]()
+            choices[user_choice - 1][1](store)
 
         except ValueError:
             print("Invalid choice! Please try again.")
@@ -143,4 +143,4 @@ def start(store):
 
 
 if __name__ == "__main__":
-    start(store)
+    start(best_buy)
