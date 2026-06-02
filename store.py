@@ -1,3 +1,5 @@
+from products import Product
+
 """ Best Buy - store.py """
 
 
@@ -10,19 +12,22 @@ class Store:
 
     def add_product(self, product):
         """ Adds a Product to the Store. """
-        pass
+        self.products.append(product)
 
     def remove_product(self, product):
         """ Removes the Product from the Store. """
-        pass
+        self.products.remove(product)
 
     def get_total_quantity(self) -> int:
         """ Returns a count of the total number of items (of all Products) in the Store. """
-        pass
+        count = 0
+        for product in self.products:
+            count += product.get_quantity()
+        return count
 
     def get_all_products(self) -> List[Product]:
         """ Returns a list of all Products (only active) in the Store. """
-        pass
+        return [p for p in self.products if p.is_active()]
 
     def order(self, shopping_list) -> float:
         """ Processes a purchase order for the Store.
@@ -33,7 +38,11 @@ class Store:
             Args:
                 shopping_list :: tuple(Product, quantity)
         """
-        pass
+        total = 0
+        for product, quantity in shopping_list:
+            cost = product.buy(quantity)
+            total += cost
+        return total
 
 
 # Tests
@@ -58,7 +67,7 @@ if __name__ == "__main__":
         my_store.remove_product(p2)
 
         # Test buying function
-        price = my_store.order(p1, 2)
+        price = my_store.order([(p1, 2)])
         assert price == 10.99 * 2
 
         # Count total quantity
