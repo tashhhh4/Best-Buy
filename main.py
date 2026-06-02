@@ -3,7 +3,7 @@
 import products
 import store
 
-# setup initial stock of inventory
+# Setup initial store and products
 product_list = [
     products.Product("Macbook Air M2", price=1450, quantity=100),
     products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
@@ -11,3 +11,58 @@ product_list = [
 ]
 
 best_buy = store.Store(product_list)
+
+
+# Menu functions
+def list_products():
+    print("Running function list_products")    
+
+def show_product_count():
+    print("Running function show_product_count")    
+
+def make_order():
+    print("Running function make_order")    
+
+
+def start(store):
+    """ Displays a console menu to the user and allows
+    interaction with the main Store. """
+
+    choices = [
+        ("List all products in the store", list_products),
+        ("Show total amount in store", show_product_count),
+        ("Make an order", make_order),
+        ("Quit",),
+    ]
+
+    def get_choice(prompt, choices):
+        """ Validates user input and returns a number
+        corresponding to one of the choices. """
+        while True:
+            try:
+                user_input = int(input(prompt))
+
+                if not 1 <= user_input <= len(choices):
+                    print("Invalid choice")
+    
+                return user_input
+
+            except ValueError:
+                print("Invalid choice.")
+                continue
+
+    while True:
+        for i, choice in enumerate(choices):
+            print(f"{i + 1}. {choice[0]}")
+
+        user_choice = get_choice("Enter choice: ", choices)
+
+        if user_choice == len(choices): # Quit signal received
+            print("Buy-bye!")
+            break
+
+        choices[user_choice - 1][1]()
+
+
+if __name__ == "__main__":
+    start(store)
