@@ -6,9 +6,13 @@ from products import Product
 class Store:
     """ The store tracks a list of products that belong to it. """
 
-    def __init__(self):
-        """ Initializes the Store with an empty Product list. """
-        self.products = []
+    def __init__(self, products):
+        """ Initializes the Store with an initial Product list.
+
+            Args:
+                products :: List[Product]
+        """
+        self.products = products
 
     def add_product(self, product):
         """ Adds a Product to the Store. """
@@ -49,7 +53,7 @@ class Store:
 if __name__ == "__main__":
     try:
         # Create Store
-        my_store = Store()
+        my_store = Store([])
         assert len(my_store.get_all_products()) == 0
 
         # Add Products
@@ -72,6 +76,20 @@ if __name__ == "__main__":
 
         # Count total quantity
         assert my_store.get_total_quantity() == 8
+
+        # Create new products
+        bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
+        mac = Product("MacBook Air M2", price=1450, quantity=100)
+
+        # Initialize store with products
+        best_buy = Store([bose, mac])
+        assert len(best_buy.get_all_products()) == 2
+        assert best_buy.get_all_products()[0] is bose
+
+        pixel = Product("Google Pixel 7", price=500, quantity=250)
+        best_buy.add_product(pixel)
+
+        assert best_buy.get_total_quantity() == bose.get_quantity() + mac.get_quantity() + pixel.get_quantity()
 
         print("All tests passed.")
 
