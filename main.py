@@ -36,7 +36,8 @@ def list_products():
     print_divider()
 
 def show_product_count():
-    print("Running function show_product_count")    
+    num_items = best_buy.get_total_quantity()
+    print(f"Total of {num_items} items in the store") 
 
 def make_order():
     print("Running function make_order")    
