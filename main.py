@@ -18,13 +18,19 @@ def print_divider():
     """ Prints a divider to help visually space the UI. """
     print("------")
 
+def print_deco_divider():
+    """ Prints a classier divider. """
+    print("********")
+
 def print_title():
     """ Prints the main title/header of the program. """
     print("   Store Menu")
     print("   ----------")
 
+
 def print_products():
     """ Prints a numbered list of the products in the store. """
+    print_divider()
     products = best_buy.get_all_products()
     if not products:
         print("Store inventory is empty!")
@@ -32,14 +38,14 @@ def print_products():
         for i, product in enumerate(products):
             print(f"{i + 1}. ", end="")
             product.show()
+    print_divider()
 
 
 # Menu functions
+
 def list_products():
     """ Lists the products. """
-    print_divider()
     print_products()
-    print_divider()
 
 
 def show_product_count():
@@ -50,12 +56,59 @@ def show_product_count():
 
 def make_order():
     """ Interacts with the user to place purchase orders on products in the store. """
-    print("Running function make_order")    
+    print_products()
+    print("Enter the product numbers and quantities for your desired order. To finish, enter blank text for both prompts.")
+
+    # Product order loop
+    orders = []
+    error_message = "Error adding product!"
+
+    while True:
+        product_number = input("Enter product number: ")
+        product_quantity = input("Enter product quantity: ")
+
+        # quit condition
+        if product_number == "" and product_quantity == "":
+            break
+
+        # add order
+        try:
+            product_number = int(product_number)
+            product_quantity = int(product_quantity)
+
+            if product_number < 1:
+                raise IndexError
+
+            if product_quantity < 1:
+                raise ValueError
+
+            product = best_buy.get_all_products()[product_number - 1]
+
+            orders.append((product, product_quantity))
+
+        except ValueError:
+            print(error_message)
+
+        except IndexError:
+            print(error_message)
+
+        finally:
+            print()
+
+    if orders:
+        try:
+            price = best_buy.order(orders)
+            print_deco_divider()
+            print(f"Order made! Total payment: ${round(price)}")
+
+        except products.ProductShortageError as e:
+            print("XXXXX Order unsuccessful XXXXX")
+            print(e)
 
 
 def start(store):
     """ Displays a console menu to the user and allows
-    interaction with the main Store. """
+    interaction with the store. """
 
     # Menu choices
     choices = [
