@@ -51,13 +51,14 @@ def list_products(store):
 def show_product_count(store):
     """ Shows the total number of items in the store. """
     num_items = store.get_total_quantity()
-    print(f"Total of {num_items} items in the store") 
+    print(f"Total of {num_items} items in the store")
 
 
 def make_order(store):
     """ Interacts with the user to place purchase orders on products in the store. """
     print_products(store)
-    print("Enter the product numbers and quantities for your desired order. To finish, enter blank text for both prompts.")
+    print(("Enter the product numbers and quantities for your desired order."
+          " To finish, enter blank text for both prompts."))
 
     # Product order loop
     orders = []

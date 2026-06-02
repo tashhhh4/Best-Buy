@@ -1,8 +1,7 @@
 """ Best Buy - products.py """
 
 class ProductShortageError(Exception):
-    def __init__(self, message):
-        super().__init__(message)
+    """ Raised when attempting to decrease a product's stock below zero. """
 
 
 class Product:
@@ -17,14 +16,14 @@ class Product:
             raise ValueError("Expected a value for property 'name' in new 'Product'.")
 
         self.name = name
-    
+
         self.price = float(price)
         if price < 0:
             raise ValueError("Property 'price' can't be negative in class 'Product'.")
 
         self.set_quantity(quantity)
 
-        self.active = True if quantity > 0 else false
+        self.active = quantity > 0
 
     def get_quantity(self):
         """ Returns the current quantity of this product. """
@@ -34,8 +33,10 @@ class Product:
         """ Updates the quantity of this product. """
         quantity = int(quantity)
         if quantity < 0:
-            raise ValueError("Tried to set property 'quantity' to a negative value in setter function 'set_quantity' in class Product.")
-        
+            raise ValueError(("Tried to set property 'quantity' to a negative value"
+                              " in setter function 'set_quantity' in class Product."
+            ))
+
         self.quantity = quantity
         if self.quantity == 0:
             self.deactivate()
@@ -62,8 +63,10 @@ class Product:
         if self.quantity <= 0:
             raise ProductShortageError(f"Product '{self.name}' is out of stock!")
         if self.quantity < quantity:
-            raise ProductShortageError(f"Cannot buy {quantity} of product '{self.name}' with only {self.quantity} left in stock!")
-        
+            raise ProductShortageError((f"Cannot buy {quantity} of product '{self.name}' "
+                                       f" with only {self.quantity} left in stock!"
+            ))
+
         self.set_quantity(self.quantity - quantity)
         return quantity * self.price
 
@@ -72,12 +75,12 @@ class Product:
 if __name__ == "__main__":
     bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
     mac = Product("MacBook Air M2", price=1450, quantity=100)
-    
+
     print(bose.buy(50))
     print(mac.buy(100))
 
     print(mac.is_active())
-    assert mac.is_active() == False
+    assert mac.is_active() is False
 
     bose.show()
     mac.show()

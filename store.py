@@ -1,6 +1,6 @@
-import products
-
 """ Best Buy - store.py """
+
+import products
 
 
 class Store:
@@ -91,7 +91,9 @@ if __name__ == "__main__":
         best_buy.add_product(pixel)
 
         # Test correct quantity counting
-        assert best_buy.get_total_quantity() == bose.get_quantity() + mac.get_quantity() + pixel.get_quantity()
+        assert (best_buy.get_total_quantity() ==
+                bose.get_quantity() + mac.get_quantity() + pixel.get_quantity()
+        )
 
         # Test deactivated product
         pixel.deactivate()
@@ -112,7 +114,9 @@ if __name__ == "__main__":
         best_buy = Store(product_list)
         products = best_buy.get_all_products()
         assert best_buy.get_total_quantity() == 100 + 500 + 250
-        assert best_buy.order([(products[0], 1), (products[1], 2)]) == products[0].price * 1 + products[1].price * 2
+        assert (best_buy.order([(products[0], 1), (products[1], 2)]) ==
+                products[0].price * 1 + products[1].price * 2
+        )
 
         print("All tests passed.")
 
