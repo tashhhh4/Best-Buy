@@ -41,7 +41,7 @@ class Product:
             self.deactivate()
 
     def is_active(self) -> bool:
-        """ Reports if this product is active (visible). """
+        """ Reports if this product is active. """
         return self.active
 
     def activate(self):
