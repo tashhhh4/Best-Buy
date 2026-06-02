@@ -28,6 +28,7 @@ def start(store):
     """ Displays a console menu to the user and allows
     interaction with the main Store. """
 
+    # Menu choices
     choices = [
         ("List all products in the store", list_products),
         ("Show total amount in store", show_product_count),
@@ -35,33 +36,29 @@ def start(store):
         ("Quit",),
     ]
 
-    def get_choice(prompt, choices):
-        """ Validates user input and returns a number
-        corresponding to one of the choices. """
-        while True:
-            try:
-                user_input = int(input(prompt))
-
-                if not 1 <= user_input <= len(choices):
-                    print("Invalid choice")
-    
-                return user_input
-
-            except ValueError:
-                print("Invalid choice.")
-                continue
-
+    # Menu Main Loop
     while True:
+        print()
+        print("   Store")
+        print("   -----")
         for i, choice in enumerate(choices):
             print(f"{i + 1}. {choice[0]}")
 
-        user_choice = get_choice("Enter choice: ", choices)
+        try:
+            user_choice = int(input("Please enter a number: ").strip())
 
-        if user_choice == len(choices): # Quit signal received
-            print("Buy-bye!")
-            break
+            if user_choice == len(choices): # Quit signal received
+                break
 
-        choices[user_choice - 1][1]()
+            if not 1 <= user_choice <= len(choices):
+                print("Invalid choice! Please try again.")
+                continue
+
+            choices[user_choice - 1][1]()
+
+        except ValueError:
+            print("Invalid choice! Please try again.")
+            continue
 
 
 if __name__ == "__main__":
