@@ -13,9 +13,7 @@ class Store:
         pass
 
     def remove_product(self, product):
-        """ If the Product exists in the Store,
-        removes it.
-        """
+        """ Removes the Product from the Store. """
         pass
 
     def get_total_quantity(self) -> int:
@@ -40,4 +38,34 @@ class Store:
 
 # Tests
 if __name__ == "__main__":
-    pass
+    try:
+        # Create Store
+        my_store = Store()
+        assert len(my_store.get_all_products()) == 0
+
+        # Add Products
+        p1 = Product("Product 1", 10.99, 10)
+        p2 = Product("Product 2", 25.99, 5)
+
+        my_store.add_product(p1)
+        my_store.add_product(p2)
+
+        # Get all Products
+        assert len(my_store.get_all_products()) == 2
+        assert p2 in my_store.get_all_products()
+
+        # Remove Products
+        my_store.remove_product(p2)
+
+        # Test buying function
+        price = my_store.order(p1, 2)
+        assert price == 10.99 * 2
+
+        # Count total quantity
+        assert my_store.get_total_quantity() == 8
+
+        print("All tests passed.")
+
+    except Exception as e:
+        print("Test failed...")
+        print(e)
