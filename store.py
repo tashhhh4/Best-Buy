@@ -22,18 +22,18 @@ class Store:
         """ Removes the Product from the Store. """
         self.products.remove(product)
 
-    def get_total_quantity(self) -> int:
+    def get_total_quantity(self):
         """ Returns a count of the total number of items (of all Products) in the Store. """
         count = 0
         for product in self.products:
             count += product.get_quantity()
         return count
 
-    def get_all_products(self) -> List[products.Product]:
+    def get_all_products(self):
         """ Returns a list of all Products (only active) in the Store. """
         return [p for p in self.products if p.is_active()]
 
-    def order(self, shopping_list) -> float:
+    def order(self, shopping_list):
         """ Processes a purchase order for the Store.
 
             Returns:

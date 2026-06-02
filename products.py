@@ -26,7 +26,7 @@ class Product:
 
         self.active = True if quantity > 0 else false
 
-    def get_quantity(self) -> int:
+    def get_quantity(self):
         """ Returns the current quantity of this product. """
         return self.quantity
 
@@ -40,7 +40,7 @@ class Product:
         if self.quantity == 0:
             self.deactivate()
 
-    def is_active(self) -> bool:
+    def is_active(self):
         """ Reports if this product is active. """
         return self.active
 
@@ -56,7 +56,7 @@ class Product:
         """ Prints an string representation of the product containing all of its basic info. """
         print(f"{self.name}, Price: {round(self.price)}, Quantity: {self.quantity}")
 
-    def buy(self, quantity) -> float:
+    def buy(self, quantity):
         """ 'Buys' a product. Returns the total price given the desired quantity,
         and deducts the product from the store's total inventory. """
         if self.quantity <= 0:
