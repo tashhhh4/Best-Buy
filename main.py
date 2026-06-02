@@ -13,9 +13,27 @@ product_list = [
 best_buy = store.Store(product_list)
 
 
+# Console helper functions
+def print_divider():
+    """ Prints a divider to help visually space the UI. """
+    print("------")
+
+def print_title():
+    """ Prints the main title/header of the program. """
+    print("   Store Menu")
+    print("   ----------")
+
+
 # Menu functions
 def list_products():
-    print("Running function list_products")    
+    print_divider()
+    products = best_buy.get_all_products()
+    if not products:
+        print("Store inventory is empty!")
+    else:
+        for product in products:
+            product.show()
+    print_divider()
 
 def show_product_count():
     print("Running function show_product_count")    
@@ -39,8 +57,7 @@ def start(store):
     # Menu Main Loop
     while True:
         print()
-        print("   Store")
-        print("   -----")
+        print_title()
         for i, choice in enumerate(choices):
             print(f"{i + 1}. {choice[0]}")
 
