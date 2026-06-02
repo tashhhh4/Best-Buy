@@ -91,6 +91,10 @@ if __name__ == "__main__":
 
         assert best_buy.get_total_quantity() == bose.get_quantity() + mac.get_quantity() + pixel.get_quantity()
 
+        pixel.deactivate()
+
+        assert pixel not in best_buy.get_all_products()
+
         print("All tests passed.")
 
     except Exception as e:
