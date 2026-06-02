@@ -86,14 +86,33 @@ if __name__ == "__main__":
         assert len(best_buy.get_all_products()) == 2
         assert best_buy.get_all_products()[0] is bose
 
+        # Add another product
         pixel = Product("Google Pixel 7", price=500, quantity=250)
         best_buy.add_product(pixel)
 
+        # Test correct quantity counting
         assert best_buy.get_total_quantity() == bose.get_quantity() + mac.get_quantity() + pixel.get_quantity()
 
+        # Test deactivated product
         pixel.deactivate()
 
         assert pixel not in best_buy.get_all_products()
+
+        # Test order
+        price = best_buy.order([(bose, 5), (mac, 30), (bose, 10)])
+        assert price == bose.price * 15 + mac.price * 30
+        assert bose.get_quantity() == 500 - 5 - 10
+
+        # Test one more set of usage statements (note: best_buy variable reassigned)
+        product_list = [Product("MacBook Air M2", price=1450, quantity=100),
+                Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                Product("Google Pixel 7", price=500, quantity=250),
+               ]
+
+        best_buy = Store(product_list)
+        products = best_buy.get_all_products()
+        assert best_buy.get_total_quantity() == 100 + 500 + 250
+        assert best_buy.order([(products[0], 1), (products[1], 2)]) == products[0].price * 1 + products[1].price * 2
 
         print("All tests passed.")
 
